@@ -34,7 +34,7 @@ class Tule :
         
     def create (x,y,name):
     
-        screen.blit(Tules[name],(x*20+10,y*20+10))
+        screen.blit(Tules[name],(y*20+10,x*20+10))
 
         
         
