@@ -4,17 +4,13 @@
 
 import pygame
 import fonction
+import game
 
 
 fonction.init_graphique()
+game.game_desing()
 
 
-fonction.Tule.create(10,10,"tule_deco_brown")
-fonction.Tule.create(30,30,"tule_deco_brown")
-fonction.Tule.create(50,30,"wall_grey_1")
-fonction.Tule.create(70,30,"wall_grey_3")
-fonction.Tule.create(90,30,"wall_grey_3")
-fonction.Tule.create(110,30,"wall_grey_3")
 
 
 
