@@ -6,18 +6,16 @@ import pygame
 import fonction
 
 
+fonction.init_graphique()
 
-def init():
-    
-    pygame.init()
-    size = (720, 480)
-    screen = pygame.display.set_mode(size)    # Display the screen(tuple)
-    pygame.draw.rect(screen,(128,128,128), (0,0,size[0],size[1]))
-    
-    
-    
 
-init()
+fonction.Tule.create(10,10,"tule_deco_brown")
+fonction.Tule.create(30,30,"tule_deco_brown")
+fonction.Tule.create(50,30,"wall_grey_1")
+fonction.Tule.create(70,30,"wall_grey_3")
+fonction.Tule.create(90,30,"wall_grey_3")
+fonction.Tule.create(110,30,"wall_grey_3")
+
 
 
 running = True
@@ -37,6 +35,6 @@ while running:                                     # Event loop launch
                 print("bas") 
     
     
-    pygame.display.update()
+    pygame.display.update()                     # Update the screen
 
 
