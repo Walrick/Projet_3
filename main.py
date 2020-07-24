@@ -23,14 +23,16 @@ while running:                                     # Event loop launch
                 running = False
             elif event.key == pygame.K_LEFT:
                 print("gauche")
+                fonction.Character.move("left","MacGyver")
             elif event.key == pygame.K_UP:
                 print("haut")
+                fonction.Character.move("up","MacGyver")
             elif event.key == pygame.K_RIGHT:
                 print("droite")
+                fonction.Character.move("right","MacGyver")
             elif event.key == pygame.K_DOWN:
                 print("bas") 
-    
-    
-    pygame.display.update()                     # Update the screen
+                fonction.Character.move("down","MacGyver")
+                
 
 
