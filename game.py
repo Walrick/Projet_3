@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 # -*- coding: utf8 -*-
 
-from fonction import *
+import fonction
 
 lvl = {}
 
@@ -27,8 +27,8 @@ def game_desing():
             colum += 1
         line += 1
         colum = 0
-        
-    liste_item = Item.random_placement(lvl)                 # ici on complete le dictionnaire avec les objets
+    
+    liste_item = fonction.Item.random_placement(lvl)                # ici on complete le dictionnaire avec les objets
     for a in liste_item :
         lvl[(a[1],a[2])][1] = a[0]
         
@@ -38,21 +38,33 @@ def game_desing():
     for i in range(0,17):    # x
         for j in range(0,17): # y  
             if lvl[(i,j)][0] == "arrival":
-                Tule.create(i,j,"tule_deco_brown")
-                Character.create(i,j,"MacGyver")
+                fonction.Tule.create(i,j,"tule_deco_brown")
+                fonction.Character.create(i,j,"MacGyver")
             elif lvl[(i,j)][0] == "exit":
-                Tule.create(i,j,"tule_deco_brown") 
-                Character.create(i,j,"Gardien")
+                fonction.Tule.create(i,j,"tule_deco_brown") 
+                fonction.Character.create(i,j,"Gardien")
             elif lvl[(i,j)][0] == "tule_brown":
-                Tule.create(i,j,"tule_brown")  
+                fonction.Tule.create(i,j,"tule_brown")  
                 if lvl[(i,j)][1] != "":
-                    Item.create(i,j,lvl[(i,j)][1])
+                    fonction.Item.create(i,j,lvl[(i,j)][1])
             elif lvl[(i,j)][0] == "wall_grey_1":
-                Tule.create(i,j,"wall_grey_1")      
+                fonction.Tule.create(i,j,"wall_grey_1")      
                 
-
+def update_lvl():
     
-    
+    for i in range(0,17):    # x
+        for j in range(0,17): # y  
+            
+            if lvl[(i,j)][0] == "arrival":
+                fonction.Tule.create(i,j,"tule_deco_brown")
+            elif lvl[(i,j)][0] == "exit":
+                fonction.Tule.create(i,j,"tule_deco_brown") 
+            elif lvl[(i,j)][0] == "tule_brown":
+                fonction.Tule.create(i,j,"tule_brown")  
+                if lvl[(i,j)][1] != "":
+                    fonction.Item.create(i,j,lvl[(i,j)][1])
+            elif lvl[(i,j)][0] == "wall_grey_1":
+                fonction.Tule.create(i,j,"wall_grey_1")          
     
 
     

@@ -3,7 +3,7 @@
 
 import pygame
 import random
-import game.lvl
+import game
 
 Tules = {}
 Items = {}
@@ -97,13 +97,13 @@ class Character :
         
         x = Characters[name][1]
         y = Characters[name][2]
-        if direction == "up":
+        if direction == "up" and game.lvl[(x-1,y)][0] != "wall_grey_1":
             x -= 1
-        if direction == "down":
+        if direction == "down" and game.lvl[(x+1,y)][0] != "wall_grey_1":
             x += 1
-        if direction == "right":
+        if direction == "right" and game.lvl[(x,y+1)][0] != "wall_grey_1":
             y += 1
-        if direction == "left":
+        if direction == "left" and game.lvl[(x,y-1)][0] != "wall_grey_1":
             y -= 1        
         Character.create(x,y,name)
         
@@ -111,8 +111,9 @@ class Character :
 def update():
     
     pygame.draw.rect(screen,(128,128,128), (0,0,size[0],size[1]))    
-    
-    
+    game.update_lvl()
+    Character.move("","MacGyver")
+    Character.move("","Gardien")
     pygame.display.update()                     # Update the screen
     
     
