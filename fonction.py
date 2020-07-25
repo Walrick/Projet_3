@@ -8,7 +8,8 @@ import game
 Tules = {}
 Items = {}
 Characters = {}
-
+win = False
+loose = False
 
 def init_graphique():
     
@@ -62,7 +63,7 @@ class Item :
         
     def create (x,y,name):
         
-        screen.blit(Items[name][0],(y*30+10,x*30+10))                               # Display on the screen
+        screen.blit(Items[name][0],(y*30+10,x*30+10))                               # Display on the screen et on transforme le placement x, y en pixel
         
     def random_placement(lvl):
         
@@ -78,6 +79,13 @@ class Item :
                     Items[name][3] = y
                     placement_item.append([name,x,y])
         return([placement_item[0],placement_item[1],placement_item[2]])
+    
+    def pickup_item (x, y, name):
+        
+        if game.lvl[(x,y)][1] != "":
+            if x == Items[game.lvl[(x,y)][1]][2] and y == Items[game.lvl[(x,y)][1]][3]:
+                Items[game.lvl[(x,y)][1]][1] = True
+            
         
 class Character :
     
@@ -106,14 +114,67 @@ class Character :
         if direction == "left" and game.lvl[(x,y-1)][0] != "wall_grey_1":
             y -= 1        
         Character.create(x,y,name)
+        Item.pickup_item(x,y,name)
         
         
 def update():
     
-    pygame.draw.rect(screen,(128,128,128), (0,0,size[0],size[1]))    
+    pygame.draw.rect(screen,(128,128,128), (0,0,size[0],size[1]))    # ecrase the screen
     game.update_lvl()
-    Character.move("","MacGyver")
-    Character.move("","Gardien")
+    check_win()
+    if win == True or loose == True :
+        end()
+    else :
+        Character.move("","MacGyver")
+        Character.move("","Gardien")
     pygame.display.update()                     # Update the screen
     
+def end():
     
+    if win == True :
+        
+        font=pygame.font.Font(None, 24)
+        text = font.render("GAGNER",1,(255,255,255)) 
+        screen.blit(text, (300, 300))
+        print("gagné")
+        
+    if loose == True :
+        
+        font=pygame.font.Font(None, 24)
+        text = font.render("PERDU",1,(255,255,255)) 
+        screen.blit(text, (300, 300)) 
+        print("perdu")
+    
+    
+def check_win():
+    
+    mac_x = Characters["MacGyver"][1]
+    mac_y = Characters["MacGyver"][2]
+    gar_x = Characters["Gardien"][1]
+    gar_y = Characters["Gardien"][2]
+    
+    if mac_x-1 == gar_x : 
+        if mac_y == gar_y :
+            if total_item == 3:
+                win = True
+            else : loose = True
+        
+    if mac_x+1 == gar_x :
+        if mac_y == gar_y :
+            if total_item == 3:
+                win = True 
+            else : loose = True
+  
+    if mac_y+1 == gar_y :
+        if  mac_x == gar_x : 
+            if total_item == 3:
+                win = True
+            else : 
+                loose = True
+                
+    if mac_y-1 == gar_y :
+        if mac_x == gar_x : 
+            if total_item == 3:
+                win = True      
+            else : 
+                loose = True 
