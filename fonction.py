@@ -135,7 +135,7 @@ def end():
     if win == True :
         
         font=pygame.font.Font(None, 24)
-        text = font.render("GAGNER",1,(255,255,255)) 
+        text = font.render("GAGNÉ",1,(255,255,255)) 
         screen.blit(text, (300, 300))
         
     if loose == True :
