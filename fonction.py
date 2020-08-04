@@ -8,8 +8,6 @@ import game
 Tules = {}
 Items = {}
 Characters = {}
-win = False
-loose = False
 
 def init_graphique():
     
@@ -116,59 +114,67 @@ class Character :
         Character.create(x,y,name)
         Item.pickup_item(x,y,name)
         
+class Main ():
+    
+    win = False
+    loose = False
+    
+    def __init__(self):
         
-def update():
-    
-    pygame.draw.rect(screen,(128,128,128), (0,0,size[0],size[1]))    # ecrase the screen
-    game.update_lvl()
-    check_win()
-    if win  or loose :
-        end()
-    else :
-        Character.move("","MacGyver")
-        Character.move("","Gardien")
-    pygame.display.update()                     # Update the screen
-    
-def end():
-    
-    
-    if win == True :
+        init_graphique()
+        game.game_desing()        
         
-        font=pygame.font.Font(None, 24)
-        text = font.render("GAGNÉ",1,(255,255,255)) 
-        screen.blit(text, (300, 300))
+    def update():
         
-    if loose == True :
-
-        font=pygame.font.Font(None, 24)
-        text = font.render("PERDU",1,(255,255,255)) 
-        screen.blit(text, (300, 300)) 
-
-def check_win():
-    
-    global win, loose
-    
-    mac_x = Characters["MacGyver"][1]
-    mac_y = Characters["MacGyver"][2]
-    gar_x = Characters["Gardien"][1]
-    gar_y = Characters["Gardien"][2]
-    
-    if mac_x-1 == gar_x and mac_y == gar_y :
-            if total_item == 3:
-                win = True
-            else : loose = True
+        pygame.draw.rect(screen,(128,128,128), (0,0,size[0],size[1]))    # ecrase the screen
+        game.update_lvl()
+        Main.check_win()
+        if Main.win  or Main.loose :
+            Main.end()
+        else :
+            Character.move("","MacGyver")
+            Character.move("","Gardien")
+        pygame.display.update()                     # Update the screen   
         
-    if mac_x+1 == gar_x and mac_y == gar_y :
-            if total_item == 3:
-                win = True 
-            else : loose = True
-  
-    if mac_y+1 == gar_y and mac_x == gar_x : 
-            if total_item == 3:
-                win = True
-            else : loose = True
-                
-    if mac_y-1 == gar_y and mac_x == gar_x : 
-            if total_item == 3:
-                win = True      
-            else : loose = True 
+        
+    def end():
+        
+        if Main.win == True :
+            font=pygame.font.Font(None, 24)
+            text = font.render("GAGNÉ",1,(255,255,255)) 
+            screen.blit(text, (300, 300))
+            
+        if Main.loose == True :
+            font=pygame.font.Font(None, 24)
+            text = font.render("PERDU",1,(255,255,255)) 
+            screen.blit(text, (300, 300))       
+            
+    def check_win():
+        
+        mac_x = Characters["MacGyver"][1]
+        mac_y = Characters["MacGyver"][2]
+        gar_x = Characters["Gardien"][1]
+        gar_y = Characters["Gardien"][2]
+        
+        if mac_x-1 == gar_x and mac_y == gar_y :
+                if total_item == 3:
+                    Main.win = True
+                else : Main.loose = True
+            
+        if mac_x+1 == gar_x and mac_y == gar_y :
+                if total_item == 3:
+                    Main.win = True 
+                else : Main.loose = True
+      
+        if mac_y+1 == gar_y and mac_x == gar_x : 
+                if total_item == 3:
+                    Main.win = True
+                else : Main.loose = True
+                    
+        if mac_y-1 == gar_y and mac_x == gar_x : 
+                if total_item == 3:
+                    Main.win = True      
+                else : Main.loose = True         
+    
+        
+        

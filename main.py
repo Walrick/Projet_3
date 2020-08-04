@@ -7,12 +7,8 @@ import fonction
 import game
 
 
-fonction.init_graphique()
-game.game_desing()
 
-
-
-
+fonction.Main()
 
 running = True
 
@@ -29,7 +25,7 @@ while running:                                     # Event loop launch
                 fonction.Character.move("right","MacGyver")
             elif event.key == pygame.K_DOWN:
                 fonction.Character.move("down","MacGyver")
-    fonction.update()
+    fonction.Main.update()
     
 
 
