@@ -6,7 +6,6 @@ import random
 import game
 
 Tules = {}
-Items = {}
 Characters = {}
 
 def init_graphique():
@@ -54,35 +53,37 @@ class Tule :
 class Item :
     
     """Crée et affiche les items du jeu"""
+    
+    dic =  {}
 
     def __init__(self,name,item):
         
-        Items[name] = [pygame.transform.scale(item, (30, 30)),False,0,0]            # transform the size and create the list[data, carry on oneself, x, y]
-        
+        self.dic[name] = [pygame.transform.scale(item, (30, 30)),False,0,0]            # transform the size and create the list[data, carry on oneself, x, y]
+
     def create (x,y,name):
         
-        screen.blit(Items[name][0],(y*30+10,x*30+10))                               # Display on the screen et on transforme le placement x, y en pixel
+        screen.blit(Item.dic[name][0],(y*30+10,x*30+10))                               # Display on the screen et on transforme le placement x, y en pixel
         
     def random_placement(lvl):
         
         placement_item = []
-        for name in Items.keys():
+        for name in Item.dic.keys():
             correct_placement = False          
             while correct_placement is False:
                 x = random.randint(1,16)
                 y = random.randint(1,16)
                 if lvl[(x,y)][0] == "tule_brown":
                     correct_placement = True  
-                    Items[name][2] = x
-                    Items[name][3] = y
+                    Item.dic[name][2] = x
+                    Item.dic[name][3] = y
                     placement_item.append([name,x,y])
         return([placement_item[0],placement_item[1],placement_item[2]])
     
     def pickup_item (x, y, name):
         
         if game.lvl[(x,y)][1] != "":
-            if x == Items[game.lvl[(x,y)][1]][2] and y == Items[game.lvl[(x,y)][1]][3]:
-                Items[game.lvl[(x,y)][1]][1] = True
+            if x == Item.dic[game.lvl[(x,y)][1]][2] and y == Item.dic[game.lvl[(x,y)][1]][3]:
+                Item.dic[game.lvl[(x,y)][1]][1] = True
             
         
 class Character :

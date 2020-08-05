@@ -62,22 +62,22 @@ def update_lvl():
             elif lvl[(i,j)][0] == "tule_brown":
                 fonction.Tule.create(i,j,"tule_brown")  
                 if lvl[(i,j)][1] != "":
-                    if fonction.Items[lvl[(i,j)][1]][1] == False   :
+                    if fonction.Item.dic[lvl[(i,j)][1]][1] == False :
                         fonction.Item.create(i,j,lvl[(i,j)][1])
             elif lvl[(i,j)][0] == "wall_grey_1":
                 fonction.Tule.create(i,j,"wall_grey_1")    
                 
     fonction.total_item = 0            
-    for name in fonction.Items.keys():
-        if fonction.Items[name][1] == True and name == "needle":    
+    for name in fonction.Item.dic.keys():
+        if fonction.Item.dic[name][1] == True and name == "needle":    
             fonction.Item.create(2,18,name)
             fonction.total_item += 1
 
-        if fonction.Items[name][1] == True and name == "ether":    
+        if fonction.Item.dic[name][1] == True and name == "ether":    
             fonction.Item.create(2,19,name)  
             fonction.total_item += 1
         
-        if fonction.Items[name][1] == True and name == "plastic_tube":    
+        if fonction.Item.dic[name][1] == True and name == "plastic_tube":    
             fonction.Item.create(2,20,name)
             fonction.total_item += 1
             
