@@ -5,9 +5,6 @@ import pygame
 import random
 import game
 
-Tules = {}
-
-
 def init_graphique():
     
     global tileset, screen, size
@@ -41,14 +38,16 @@ class Tule :
     
     """Create and display the graphic tule"""
     
+    dic = {}    
+    
     def __init__(self,x,y,name):
         
-        Tules[name] = tileset.subsurface((x,y,20,20))                    # select the tule
-        Tules[name] = pygame.transform.scale(Tules[name], (30, 30))      # transform the size 
+        self.dic[name] = tileset.subsurface((x,y,20,20))                    # select the tule
+        self.dic[name] = pygame.transform.scale(Tule.dic[name], (30, 30))      # transform the size 
         
     def create (x,y,name):
     
-        screen.blit(Tules[name],(y*30+10,x*30+10))                       # Display on the screen
+        screen.blit(Tule.dic[name],(y*30+10,x*30+10))                       # Display on the screen
         
 class Item :
     
