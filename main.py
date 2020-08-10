@@ -12,7 +12,7 @@ fonction.Main()
 
 running = True
 
-while running:                                     # Event loop launch    
+while running:                                     # Event management loop     
     for event in pygame.event.get():
         if event.type == pygame.KEYDOWN:        # For event type KEYDOWN
             if event.key == pygame.K_ESCAPE:    

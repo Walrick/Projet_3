@@ -39,7 +39,7 @@ def init_graphique():
     
 class Tule :
     
-    """Crée et affiche les tuiles de décors"""
+    """Create and display the graphic tule"""
     
     def __init__(self,x,y,name):
         
@@ -52,7 +52,7 @@ class Tule :
         
 class Item :
     
-    """Crée et affiche les items du jeu"""
+    """Create and display the graphic item"""
     
     dic =  {}
 
@@ -94,7 +94,7 @@ class Item :
         
 class Character :
     
-    """Crée et affiche les personnages du jeu"""
+    """Create and display the graphic character"""
     
     dic = {}
     
@@ -124,6 +124,8 @@ class Character :
         Item.pickup_item(x,y,name)
         
 class Main ():
+    
+    """Main class for event loop"""
     
     win = False
     loose = False
