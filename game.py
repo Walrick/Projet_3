@@ -7,14 +7,14 @@ lvl = {}
 
 def game_desing():
     
-    """Affiche le niveau du jeux"""
+    """ Load the game lvl """
     
     line = 0
     colum = 0
     
     path = open("Map.txt", "r")
     data = path.readlines()
-    for lines in data :                              # cette parties lis le fichier map et remplit le dictionnaire "lvl"
+    for lines in data :                              #  Read the Map.txt and write in the dic "lvl"
         for i in lines :
             if i == " ":
                 lvl[(line,colum)] = ["tule_brown", "" ]
@@ -28,14 +28,13 @@ def game_desing():
         line += 1
         colum = 0
     
-    liste_item = fonction.Item.random_placement(lvl)                # ici on complete le dictionnaire avec les objets
+    liste_item = fonction.Item.random_placement(lvl)                # Write in dic "lvl" the item
     for a in liste_item :
         lvl[(a[1],a[2])][1] = a[0]
-        
-    # enfin ici on lis le dictionnaires lvl et on charges la map pour la premiere fois
     
+    # First load lvl
     
-    for i in range(0,17): # x
+    for i in range(0,17): # x 
         for j in range(0,17): # y  
             if lvl[(i,j)][0] == "arrival":
                 fonction.Tule.create(i,j,"tule_deco_brown")
@@ -53,6 +52,7 @@ def game_desing():
 def update_lvl():
     
     """ update the map"""
+    
     for i in range(0,17):    # x
         for j in range(0,17): # y  
             
