@@ -51,6 +51,7 @@ def game_desing():
                 fonction.Tule.create(i,j,"wall_grey_1")      
                 
 def update_lvl():
+    
     """ update the map"""
     for i in range(0,17):    # x
         for j in range(0,17): # y  

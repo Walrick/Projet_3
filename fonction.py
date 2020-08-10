@@ -6,7 +6,7 @@ import random
 import game
 
 Tules = {}
-Characters = {}
+
 
 def init_graphique():
     
@@ -96,20 +96,22 @@ class Character :
     
     """Crée et affiche les personnages du jeu"""
     
+    dic = {}
+    
     def __init__(self,name,item):
         
-        Characters[name] = [pygame.transform.scale(item, (30, 30)),0,0]             # transform the size and create the list[data, x, y]
+        self.dic[name] = [pygame.transform.scale(item, (30, 30)),0,0]             # transform the size and create the list[data, x, y]
     
     def create(x,y,name):
         
-        screen.blit(Characters[name][0],(y*30+10,x*30+10))
-        Characters[name][1] = x
-        Characters[name][2] = y
+        screen.blit(Character.dic[name][0],(y*30+10,x*30+10))
+        Character.dic[name][1] = x
+        Character.dic[name][2] = y
         
     def move(direction,name):
         
-        x = Characters[name][1]
-        y = Characters[name][2]
+        x = Character.dic[name][1]
+        y = Character.dic[name][2]
         if direction == "up" and game.lvl[(x-1,y)][0] != "wall_grey_1":
             x -= 1
         if direction == "down" and game.lvl[(x+1,y)][0] != "wall_grey_1":
@@ -158,10 +160,10 @@ class Main ():
             
     def check_win():
         
-        mac_x = Characters["MacGyver"][1]
-        mac_y = Characters["MacGyver"][2]
-        gar_x = Characters["Gardien"][1]
-        gar_y = Characters["Gardien"][2]
+        mac_x = Character.dic["MacGyver"][1]
+        mac_y = Character.dic["MacGyver"][2]
+        gar_x = Character.dic["Gardien"][1]
+        gar_y = Character.dic["Gardien"][2]
         
         if mac_x-1 == gar_x and mac_y == gar_y :
                 if total_item == 3:
