@@ -68,11 +68,17 @@ class Item :
         
         placement_item = []
         for name in Item.dic.keys():
-            correct_placement = False          
+            correct_placement = False 
             while correct_placement is False:
+                item_stack = False
                 x = random.randint(1,16)
                 y = random.randint(1,16)
-                if lvl[(x,y)][0] == "tule_brown":
+                if len(placement_item) != 0 :                                           # check the stack item
+                    for i in placement_item :
+                        if i[1] == x and i[2] == y :
+                            item_stack = True
+                
+                if lvl[(x,y)][0] == "tule_brown" and item_stack == False :                              
                     correct_placement = True  
                     Item.dic[name][2] = x
                     Item.dic[name][3] = y

@@ -35,7 +35,7 @@ def game_desing():
     # enfin ici on lis le dictionnaires lvl et on charges la map pour la premiere fois
     
     
-    for i in range(0,17):    # x
+    for i in range(0,17): # x
         for j in range(0,17): # y  
             if lvl[(i,j)][0] == "arrival":
                 fonction.Tule.create(i,j,"tule_deco_brown")
