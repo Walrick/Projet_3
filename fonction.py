@@ -5,186 +5,104 @@ import pygame
 import random
 import game
 
-def init_graphique():
-    
-    global tileset, screen, size
-    
-    pygame.init()
-    size = (720, 530)                         # size of screen
-    screen = pygame.display.set_mode(size)    # Display the screen(tuple)
-    pygame.draw.rect(screen,(128,128,128), (0,0,size[0],size[1]))    
-    
-    tileset = pygame.image.load("objet_graphique/floor-tiles-20x20.png")          # init the tule
-    Tule(0,0,"tule_deco_brown")                                                   
-    Tule(20,0,"tule_brown")
-    Tule(180,0,"wall_grey_1")
-    
-    needleset = pygame.image.load("objet_graphique/aiguille.png")        # init the needle
-    Item("needle",needleset)
-    
-    etherset = pygame.image.load("objet_graphique/ether.png")         # init the ether
-    Item("ether",etherset)
-    
-    plastic_tubeset = pygame.image.load("objet_graphique/tube_plastique.png")         # init the plastic_tubeset
-    Item("plastic_tube",plastic_tubeset)
-    
-    MacGyverset = pygame.image.load("objet_graphique/MacGyver.png")         # init MacGyver
-    Character("MacGyver", MacGyverset)
-    
-    Gardienset = pygame.image.load("objet_graphique/Gardien.png")         # init Gardien
-    Character("Gardien", Gardienset)    
+placement_item = []
     
 class Tule :
     
-    """Create and display the graphic tule"""
+    def __init__(self,name,data):
+        
+        self.name = name
+        self.data = data
+        
+    def create (self):
     
-    dic = {}    
-    
-    def __init__(self,x,y,name):
+        return self.data
         
-        self.dic[name] = tileset.subsurface((x,y,20,20))                    # select the tule
-        self.dic[name] = pygame.transform.scale(Tule.dic[name], (30, 30))      # transform the size 
+class Item : 
         
-    def create (x,y,name):
-    
-        screen.blit(Tule.dic[name],(y*30+10,x*30+10))                       # Display on the screen
+    def __init__(self,name,data):
         
-class Item :
-    
-    """Create and display the graphic item"""
-    
-    dic =  {}
-
-    def __init__(self,name,item):
+        self.name = name
+        self.data = data
+        self.x , self.y = random_placement_item(game.Main.lvl)
+        self.bag = False
         
-        self.dic[name] = [pygame.transform.scale(item, (30, 30)),False,0,0]            # transform the size and create the list[data, carry on oneself, x, y]
-
-    def create (x,y,name):
+    def create (self):
         
-        screen.blit(Item.dic[name][0],(y*30+10,x*30+10))                               # Display on the screen et on transforme le placement x, y en pixel
+        return (self.data, self.x, self.y)
         
-    def random_placement(lvl):
+    def pickup_item (self):
         
-        placement_item = []
-        for name in Item.dic.keys():
-            correct_placement = False 
-            while correct_placement is False:
-                item_stack = False
-                x = random.randint(1,16)
-                y = random.randint(1,16)
-                if len(placement_item) != 0 :                                           # check the stack item
-                    for i in placement_item :
-                        if i[1] == x and i[2] == y :
-                            item_stack = True
+        self.bag = True
+        
+    def set_placement(self, x, y):
+        
+        self.x = x
+        self.y = y
+        
+    def get_placement(self):
+        
+        return (self.x, self.y)                
                 
-                if lvl[(x,y)][0] == "tule_brown" and item_stack == False :                              
-                    correct_placement = True  
-                    Item.dic[name][2] = x
-                    Item.dic[name][3] = y
-                    placement_item.append([name,x,y])
-        return([placement_item[0],placement_item[1],placement_item[2]])
-    
-    def pickup_item (x, y, name):
-        
-        if game.lvl[(x,y)][1] != "":
-            if x == Item.dic[game.lvl[(x,y)][1]][2] and y == Item.dic[game.lvl[(x,y)][1]][3]:
-                Item.dic[game.lvl[(x,y)][1]][1] = True
+
             
         
-class Character :
+class Character : 
     
-    """Create and display the graphic character"""
+    """Create and display the graphic character""" 
     
-    dic = {}
-    
-    def __init__(self,name,item):
+    def __init__(self,name,data):
         
-        self.dic[name] = [pygame.transform.scale(item, (30, 30)),0,0]             # transform the size and create the list[data, x, y]
-    
-    def create(x,y,name):
-        
-        screen.blit(Character.dic[name][0],(y*30+10,x*30+10))
-        Character.dic[name][1] = x
-        Character.dic[name][2] = y
-        
-    def move(direction,name):
-        
-        x = Character.dic[name][1]
-        y = Character.dic[name][2]
-        if direction == "up" and game.lvl[(x-1,y)][0] != "wall_grey_1":
-            x -= 1
-        if direction == "down" and game.lvl[(x+1,y)][0] != "wall_grey_1":
-            x += 1
-        if direction == "right" and game.lvl[(x,y+1)][0] != "wall_grey_1":
-            y += 1
-        if direction == "left" and game.lvl[(x,y-1)][0] != "wall_grey_1":
-            y -= 1        
-        Character.create(x,y,name)
-        Item.pickup_item(x,y,name)
-        
-class Main ():
-    
-    """Main class for event loop"""
-    
-    win = False
-    loose = False
-    
-    def __init__(self):
-        
-        init_graphique()
-        game.game_desing()        
-        
-    def update():
-        
-        pygame.draw.rect(screen,(128,128,128), (0,0,size[0],size[1]))    # ecrase the screen
-        game.update_lvl()
-        Main.check_win()
-        if Main.win  or Main.loose :
-            Main.end()
-        else :
-            Character.move("","MacGyver")
-            Character.move("","Gardien")
-        pygame.display.update()                     # Update the screen   
-        
-        
-    def end():
-        
-        if Main.win == True :
-            font=pygame.font.Font(None, 24)
-            text = font.render("GAGNÉ",1,(255,255,255)) 
-            screen.blit(text, (300, 300))
+        self.name = name
+        self.data = data
+        self.bag = 0
             
-        if Main.loose == True :
-            font=pygame.font.Font(None, 24)
-            text = font.render("PERDU",1,(255,255,255)) 
-            screen.blit(text, (300, 300))       
-            
-    def check_win():
+    def create(self):
         
-        mac_x = Character.dic["MacGyver"][1]
-        mac_y = Character.dic["MacGyver"][2]
-        gar_x = Character.dic["Gardien"][1]
-        gar_y = Character.dic["Gardien"][2]
+        return (self.data, self.x, self.y)
         
-        if mac_x-1 == gar_x and mac_y == gar_y :
-                if total_item == 3:
-                    Main.win = True
-                else : Main.loose = True
-            
-        if mac_x+1 == gar_x and mac_y == gar_y :
-                if total_item == 3:
-                    Main.win = True 
-                else : Main.loose = True
-      
-        if mac_y+1 == gar_y and mac_x == gar_x : 
-                if total_item == 3:
-                    Main.win = True
-                else : Main.loose = True
-                    
-        if mac_y-1 == gar_y and mac_x == gar_x : 
-                if total_item == 3:
-                    Main.win = True      
-                else : Main.loose = True         
+    def move(self,direction):
+        
+        x = self.x
+        y = self.y
+        if direction == "up" and game.Main.lvl[(x,y-1)][0] != "wall_grey_1":
+            self.y -= 1
+        if direction == "down" and game.Main.lvl[(x,y+1)][0] != "wall_grey_1":
+            self.y += 1
+        if direction == "right" and game.Main.lvl[(x+1,y)][0] != "wall_grey_1":
+            self.x += 1
+        if direction == "left" and game.Main.lvl[(x-1,y)][0] != "wall_grey_1":
+            self.x -= 1        
+        
+    def set_placement(self, x, y):
+        
+        self.x = x
+        self.y = y
+        
+    def get_placement(self):
+        
+        return (self.x, self.y)
+    
+    def pickup_item(self):
+        
+        self.bag += 1
     
         
         
+        
+def random_placement_item(lvl):
+    
+    correct_placement = False 
+    while correct_placement is False:
+        item_stack = False
+        x = random.randint(1,16)
+        y = random.randint(1,16)
+        if len(placement_item) != 0 :                                           # check the stack item
+            for i in placement_item :
+                if i[1] == x and i[2] == y :
+                    item_stack = True
+        
+        if lvl[(x,y)][0] == "tule_brown" and item_stack == False :                              
+            correct_placement = True  
+
+    return( x , y )

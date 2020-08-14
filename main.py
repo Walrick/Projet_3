@@ -2,30 +2,17 @@
 # -*- coding: utf8 -*-
 
 
-import pygame
-import fonction
 import game
 
 
+if __name__ == '__main__':
+    
+    game.Graphic()
+    game.Main()
+    
+    game.Main.launch()
 
-fonction.Main()
 
-running = True
-
-while running:                                     # Event management loop     
-    for event in pygame.event.get():
-        if event.type == pygame.KEYDOWN:        # For event type KEYDOWN
-            if event.key == pygame.K_ESCAPE:    
-                running = False
-            elif event.key == pygame.K_LEFT:
-                fonction.Character.move("left","MacGyver")
-            elif event.key == pygame.K_UP:
-                fonction.Character.move("up","MacGyver")
-            elif event.key == pygame.K_RIGHT:
-                fonction.Character.move("right","MacGyver")
-            elif event.key == pygame.K_DOWN:
-                fonction.Character.move("down","MacGyver")
-    fonction.Main.update()
     
 
 
