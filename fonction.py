@@ -63,8 +63,8 @@ class Character :
         
     def move(self,direction):
         
-        x = self.x
-        y = self.y
+        x, y = self.x, self.y
+         
         if direction == "up" and game.Main.lvl[(x,y-1)][0] != "wall_grey_1":
             self.y -= 1
         if direction == "down" and game.Main.lvl[(x,y+1)][0] != "wall_grey_1":
@@ -99,10 +99,11 @@ def random_placement_item(lvl):
         y = random.randint(1,16)
         if len(placement_item) != 0 :                                           # check the stack item
             for i in placement_item :
-                if i[1] == x and i[2] == y :
+                if i[0] == x and i[1] == y :
                     item_stack = True
         
         if lvl[(x,y)][0] == "tule_brown" and item_stack == False :                              
-            correct_placement = True  
+            correct_placement = True 
+            placement_item.append([x,y])
 
     return( x , y )
