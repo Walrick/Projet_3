@@ -7,10 +7,9 @@ import game
 
 if __name__ == '__main__':
     
-    game.Graphic()
-    game.Main()
+    Game = game.Main()
     
-    game.Main.launch()
+    Game.launch()
 
 
     

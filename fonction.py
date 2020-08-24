@@ -9,6 +9,8 @@ placement_item = []
     
 class Tule :
     
+    """ Class Tule for tule management """
+    
     def __init__(self,name,data):
         
         self.name = name
@@ -17,14 +19,18 @@ class Tule :
     def create (self):
     
         return self.data
+    
         
 class Item : 
+    
+    """ Class Item for item management """
         
-    def __init__(self,name,data):
+    def __init__(self,name,data, x, y):
         
         self.name = name
         self.data = data
-        self.x , self.y = random_placement_item(game.Main.lvl)
+        self.x = x
+        self.y = y
         self.bag = False
         
     def create (self):
@@ -49,7 +55,7 @@ class Item :
         
 class Character : 
     
-    """Create and display the graphic character""" 
+    """ Class Character for character management """
     
     def __init__(self,name,data):
         
@@ -61,17 +67,17 @@ class Character :
         
         return (self.data, self.x, self.y)
         
-    def move(self,direction):
+    def move(self,direction, collision):
         
         x, y = self.x, self.y
          
-        if direction == "up" and game.Main.lvl[(x,y-1)][0] != "wall_grey_1":
+        if direction == "up" and collision :
             self.y -= 1
-        if direction == "down" and game.Main.lvl[(x,y+1)][0] != "wall_grey_1":
+        if direction == "down" and collision :
             self.y += 1
-        if direction == "right" and game.Main.lvl[(x+1,y)][0] != "wall_grey_1":
+        if direction == "right" and collision :
             self.x += 1
-        if direction == "left" and game.Main.lvl[(x-1,y)][0] != "wall_grey_1":
+        if direction == "left" and collision :
             self.x -= 1        
         
     def set_placement(self, x, y):
@@ -106,4 +112,21 @@ def random_placement_item(lvl):
             correct_placement = True 
             placement_item.append([x,y])
 
-    return( x , y )
+    return x , y
+
+def collision(lvl, caractere, direction):
+    
+    shifting = False
+    
+    x , y = caractere.get_placement()
+    if direction == "left" and lvl[(x-1,y)][0] != "wall_grey_1" :
+        shifting = True
+    if direction == "right" and lvl[(x+1,y)][0] != "wall_grey_1" :
+        shifting = True    
+    if direction == "up" and lvl[(x,y-1)][0] != "wall_grey_1" :
+        shifting = True
+    if direction == "down" and lvl[(x,y+1)][0] != "wall_grey_1"  :
+        shifting = True          
+    return shifting
+    
+    
