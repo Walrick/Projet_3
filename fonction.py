@@ -18,7 +18,7 @@ def random_placement_item(lvl):
                 if i[0] == x and i[1] == y :
                     item_stack = True
         
-        if lvl[(x,y)][0] == "tule_brown" and item_stack == False :                              
+        if lvl[(x,y)].name == "tule_brown" and item_stack == False :                              
             correct_placement = True 
             placement_item.append([x,y])
 
@@ -30,13 +30,13 @@ def collision_test(lvl, caractere, direction):
     shifting = False
     
     x , y = caractere.get_placement()
-    if direction == "left" and lvl[(x-1,y)][0] != "wall_grey_1" :
+    if direction == "left" and lvl[(x-1,y)].collision  :
         shifting = True
-    if direction == "right" and lvl[(x+1,y)][0] != "wall_grey_1" :
+    if direction == "right" and lvl[(x+1,y)].collision  :
         shifting = True    
-    if direction == "up" and lvl[(x,y-1)][0] != "wall_grey_1" :
+    if direction == "up" and lvl[(x,y-1)].collision  :
         shifting = True
-    if direction == "down" and lvl[(x,y+1)][0] != "wall_grey_1"  :
+    if direction == "down" and lvl[(x,y+1)].collision  :
         shifting = True          
     return shifting
     

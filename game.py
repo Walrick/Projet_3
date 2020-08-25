@@ -4,6 +4,8 @@
 import fonction
 import pygame
 
+from graphic import *
+
 from tule import *
 from item import *
 from character import *
@@ -32,15 +34,15 @@ class Main ():
         for lines in data :                              #  Read the Map.txt and write in the dic "lvl"
             for i in lines :
                 if i == " ":
-                    self.lvl[(line,colum)] = ["tule_brown", "tule_brown", ""]        # lvl[(x,y)] = ["type of tule", "name tule", Tule instance]
+                    self.lvl[(line,colum)] = ["None", "tule_brown"]        # lvl[(x,y)] = ["type of tule", "name tule"]
                 elif i == "X":
-                    self.lvl[(line,colum)] = ["wall_grey_1", "wall_grey_1", ""]  
+                    self.lvl[(line,colum)] = ["None", "wall_grey_1"]  
                 elif i == "A":
-                    self.lvl[(line,colum)] = ["arrival", "tule_deco_brown", ""]
+                    self.lvl[(line,colum)] = ["arrival", "tule_deco_brown"]
                 elif i == "S":
-                    self.lvl[(line,colum)] = ["exit", "tule_deco_brown", ""]
+                    self.lvl[(line,colum)] = ["exit", "tule_deco_brown"]
                 else :
-                    self.lvl[(line,colum)] = ["tule_brown", "tule_brown", ""]
+                    self.lvl[(line,colum)] = ["None", "tule_brown"]
                 line += 1
             colum  += 1
             self.size_map.append(line-1)
@@ -50,9 +52,9 @@ class Main ():
             for i in range(0,self.size_map[j]): # x
                 
                 if self.lvl[(i,j)][1] == "wall_grey_1":
-                    self.lvl[(i,j)][2] = Tule(self.lvl[(i,j)][1],self.graphic.dic_tule[self.lvl[(i,j)][1]], True, self.lvl[(i,j)][0])
+                    self.lvl[(i,j)] = Tule(self.lvl[(i,j)][1],self.graphic.dic_tule[self.lvl[(i,j)][1]], False, self.lvl[(i,j)][0]) # name, data, collision, type_tule
                 else : 
-                    self.lvl[(i,j)][2] = Tule(self.lvl[(i,j)][1],self.graphic.dic_tule[self.lvl[(i,j)][1]], False, self.lvl[(i,j)][0])
+                    self.lvl[(i,j)] = Tule(self.lvl[(i,j)][1],self.graphic.dic_tule[self.lvl[(i,j)][1]], True, self.lvl[(i,j)][0])
         
         for i in self.graphic.item :                                # instance item
             x, y = fonction.random_placement_item(self.lvl)
@@ -61,14 +63,15 @@ class Main ():
         for i in self.graphic.character :                           # instance character
             self.character.append(Character(i[0],i[1]))   
             
-        j = 0
         for i in self.character :                                   # Placement character
-            for k, val in self.lvl.items() :
-                if val[0] == "arrival" and i.name == "MacGyver" :
-                    i.set_placement(k[0],k[1])
-                if val[0] == "exit" and i.name == "Gardien" :
-                    i.set_placement(k[0],k[1])                
-            j += 1
+            for x in range(0,len(self.size_map)): # y                     Instance the tule
+                for y in range(0,self.size_map[j]): # x
+                
+                    if self.lvl[x,y].type_tule == "arrival" and i.name == "MacGyver" :
+                        i.set_placement(x,y)
+                    if self.lvl[x,y].type_tule == "exit" and i.name == "Gardien" :
+                        i.set_placement(x,y)                
+            
                     
     def launch(self):
         self.loop_master()
@@ -137,96 +140,3 @@ class Main ():
                 
                 
     
-class Graphic :
-    
-    """Load dic_tule, item and character and manage the screen """
-    
-    
-    dic_tule =  {}
-    item = []
-    character = []
-    
-    def __init__ (self):
-         
-        
-        self.size = (720, 530)                   # size of screen
-        pygame.init()
-        self.screen = pygame.display.set_mode(self.size)    # Display the screen(tuple)
-        pygame.draw.rect(self.screen,(128,128,128), (0,0,self.size[0],self.size[1]))    
-        
-        tileset = pygame.image.load("objet_graphique/floor-tiles-20x20.png")          # init the tule
-        self.load_tule(0,0,"tule_deco_brown",tileset)                                                   
-        self.load_tule(20,0,"tule_brown",tileset)
-        self.load_tule(180,0,"wall_grey_1",tileset)
-                
-        needleset = pygame.image.load("objet_graphique/aiguille.png")        # init the needle
-        self.load_item("needle",needleset)
-        
-        etherset = pygame.image.load("objet_graphique/ether.png")         # init the ether
-        self.load_item("ether",etherset)
-        
-        plastic_tubeset = pygame.image.load("objet_graphique/tube_plastique.png")         # init the plastic_tubeset
-        self.load_item("plastic_tube",plastic_tubeset)
-        
-        MacGyverset = pygame.image.load("objet_graphique/MacGyver.png")         # init MacGyver
-        self.load_character("MacGyver", MacGyverset)
-        
-        Gardienset = pygame.image.load("objet_graphique/Gardien.png")         # init Gardien
-        self.load_character("Gardien", Gardienset)     
-        
-            
-    def load_tule(self,x,y,name,data):
-        data = data.subsurface((x,y,20,20))                    # select the tule
-        data = pygame.transform.scale(data, (30, 30))       # transform the size  
-        self.dic_tule[name] = data
-        
-    def load_item(self,name,data):
-        data = pygame.transform.scale(data, (30, 30))       # transform the size
-        self.item.append([name,data])
-        
-    def load_character(self,name,data):
-        data = pygame.transform.scale(data, (30, 30))       # transform the size
-        self.character.append([name,data])
-    
-            
-    def display (self,size_map,lvl,item,character, win, loose):
-        
-        pygame.draw.rect(self.screen,(128,128,128), (0,0,self.size[0],self.size[1]))    # ecrase the screen
-        
-        for j in range(0,len(size_map)): # y
-            for i in range(0,size_map[j]): # x
-                a = lvl[(i,j)][2].data
-                self.screen.blit(a,(i*30+10,j*30+10))
-                
-        for i in item:
-            
-            if i.bag == True and i.name == "needle":    
-                self.screen.blit(i.data,(18*30+10,2*30+10))
-        
-            elif i.bag == True and i.name == "ether":    
-                self.screen.blit(i.data,(19*30+10,2*30+10))
-                
-            elif i.bag == True and i.name == "plastic_tube":    
-                self.screen.blit(i.data,(20*30+10,2*30+10))
-                
-            else :
-                x, y = i.get_placement()
-                self.screen.blit(i.data,(x*30+10,y*30+10))
-                
-                
-        for i in character:
-            
-            a, x, y = i.create()
-            self.screen.blit(a,(x*30+10,y*30+10))            
-            
-        if win == True :
-            font=pygame.font.Font(None, 24)
-            text = font.render("GAGNÉ",1,(255,255,255)) 
-            self.screen.blit(text, (300, 300))
-            
-        if loose == True :
-            font=pygame.font.Font(None, 24)
-            text = font.render("PERDU",1,(255,255,255)) 
-            self.screen.blit(text, (300, 300))          
-            
-            
