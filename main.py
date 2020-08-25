@@ -2,12 +2,12 @@
 # -*- coding: utf8 -*-
 
 
-import game
+from game import *
 
 
 if __name__ == '__main__':
     
-    Game = game.Main()
+    Game = Main()
     
     Game.launch()
 
