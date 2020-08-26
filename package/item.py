@@ -3,32 +3,31 @@
 # -*- coding: utf8 -*-
 
 
+class Item:
 
-class Item : 
-    
     """ Class Item for item management """
-        
-    def __init__(self,name,data, x, y):
-        
+
+    def __init__(self, name, data, x, y):
+        """ init the item """
+
         self.name = name
         self.data = data
         self.x = x
         self.y = y
         self.bag = False
-        
-    def create (self):
-        
-        return (self.data, self.x, self.y)
-        
-    def pickup_item (self):
-        
+
+    def pickup_item(self):
+        """ if the item in the bag """
+
         self.bag = True
-        
+
     def set_placement(self, x, y):
-        
+        """ set the item placement """
+
         self.x = x
         self.y = y
-        
+
     def get_placement(self):
-        
-        return (self.x, self.y)      
+        """ get the item placement """
+
+        return (self.x, self.y)

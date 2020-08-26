@@ -6,12 +6,12 @@ from game import *
 
 
 if __name__ == '__main__':
-    
+
     Game = Main()
-    
+
     Game.launch()
 
 
-    
+
 
 
