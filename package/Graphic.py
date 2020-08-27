@@ -8,14 +8,12 @@ class Graphic:
 
     """Load dic_tule, item and character and manage the screen """
 
-
-
     def __init__(self):
         """ init the Graphic class """
-        
+
         self.dic_tule = {}
         self.item = []
-        self.character = []        
+        self.character = []
 
         self.size = (720, 530)                   # size of screen
         pygame.init()
@@ -35,6 +33,11 @@ class Graphic:
 
         plastic_tubeset = pygame.image.load("package/objet_graphique/tube_plastique.png")         # init the plastic_tubeset
         self.load_item("plastic_tube", plastic_tubeset)
+
+        syringueset = pygame.image.load("package/objet_graphique/seringue.jpg")         # init the syringe
+        white = (255, 255, 255)
+        syringueset.set_colorkey(white)
+        self.load_item("syringe", syringueset)
 
         MacGyverset = pygame.image.load("package/objet_graphique/MacGyver.png")         # init MacGyver
         self.load_character("MacGyver", MacGyverset)
@@ -82,9 +85,13 @@ class Graphic:
             elif i.bag == True and i.name == "plastic_tube":
                 self.screen.blit(i.data, (20 * 30 + 10, 2 * 30 + 10))
 
+            elif i.bag == True and i.name == "syringe":
+                self.screen.blit(i.data, (19 * 30 + 10, 4 * 30 + 10))
+
             else:
-                x, y = i.get_placement()
-                self.screen.blit(i.data, (x * 30 + 10, y * 30 + 10))
+                if i.name != "syringe":
+                    x, y = i.get_placement()
+                    self.screen.blit(i.data, (x * 30 + 10, y * 30 + 10))
 
         for i in character:
 

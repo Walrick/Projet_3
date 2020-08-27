@@ -4,21 +4,21 @@
 
 import pygame
 
-from graphic import *
+from package.Graphic import *
 
 from package.fonction import *
 
-from package.tule import *
-from package.item import *
-from package.character import *
+from package.Tule import *
+from package.Item import *
+from package.Character import *
 
 
-class Main ():
+class Game ():
 
-    """Main class for manage the game"""
+    """Game class for manage the game"""
 
     def __init__(self):
-        """ init the Main class for the game """
+        """ init the Game class for the game """
 
         self.graphic = Graphic()
 
@@ -61,7 +61,11 @@ class Main ():
                     self.lvl[(i, j)] = Tule(self.lvl[(i, j)][1], self.graphic.dic_tule[self.lvl[(i, j)][1]], True, self.lvl[(i, j)][0])
 
         for i in self.graphic.item:                                # instance item
-            x, y = random_placement_item(self.lvl)
+            if i[0] == "syringe":
+                x = 0
+                y = 0
+            else:
+                x, y = random_placement_item(self.lvl)
             self.item.append(Item(i[0], i[1], x, y))
 
         for i in self.graphic.character:                           # instance character
@@ -118,6 +122,12 @@ class Main ():
                 item.pickup_item()
                 self.character[0].pickup_item()
 
+        if self.character[0].bag == 3:
+            for item in self.item:
+                if item.name == "syringe":
+                    item.pickup_item()
+                    self.character[0].pickup_item()
+
     def check_win(self):
         """ check the end game, for win or loose  """
 
@@ -126,25 +136,25 @@ class Main ():
         total_item = self.character[0].bag
 
         if mac_x - 1 == gar_x and mac_y == gar_y:
-                if total_item == 3:
+                if total_item == 4:
                     self.win = True
                 else:
                     self.loose = True
 
         if mac_x + 1 == gar_x and mac_y == gar_y:
-                if total_item == 3:
+                if total_item == 4:
                     self.win = True
                 else:
                     self.loose = True
 
         if mac_y + 1 == gar_y and mac_x == gar_x:
-                if total_item == 3:
+                if total_item == 4:
                     self.win = True
                 else:
                     self.loose = True
 
         if mac_y - 1 == gar_y and mac_x == gar_x:
-                if total_item == 3:
+                if total_item == 4:
                     self.win = True
                 else:
                     self.loose = True
