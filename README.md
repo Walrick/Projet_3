@@ -4,13 +4,22 @@ Aidez MacGyver à s'échapper !
 
 Lien GitHub : https://github.com/Walrick/Projet_3
 A utiliser avec python 3.6
-installer les dépendances : 
 
+installer les dépendances : 
 pip install -r requirements.txt
 
 Lancer le jeu :
-
 main.py
+
+Pour jouer :
+Utilise les touches directionnelles pour bouger MacGyver et ramasse les trois objets pour endormir le garde et gagner !
+Utilise échap pour quitter
+
+Pour modifier la map :
+espace = tuile (déplacement normal)
+X = mur infranchissable
+A = arrivé sur la map
+S = sortie de la map
 
 Description : 
 J'ai choisi de séparer le programme en trois fichiers principaux : main, game et graphic. J'utilise un package contenant un dossier d'objet graphique et 4 fichiers : character, item, tule et fonction. 
