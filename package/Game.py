@@ -4,13 +4,13 @@
 
 import pygame
 
-from package.Graphic import *
+from package.graphic import Graphic
 
-from package.fonction import *
+from package.fonction import random_placement_item, collision_test
 
-from package.Tule import *
-from package.Item import *
-from package.Character import *
+from package.tule import Tule
+from package.item import Item
+from package.character import Character
 
 
 class Game ():
@@ -26,7 +26,7 @@ class Game ():
         self.item = []
         self.character = []
 
-        self.size_map = []                      # init size_map list [nomber line for colum 1 , nomber line for colum 2, etc ...]
+        self.size_map = []  # init size_map list [nomber line for colum 1 , nomber line for colum 2, etc ...]
         self.win = False
         self.loose = False
 

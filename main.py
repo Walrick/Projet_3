@@ -2,7 +2,7 @@
 # -*- coding: utf8 -*-
 
 
-from package.Game import *
+from package.game import Game
 
 
 def main():
