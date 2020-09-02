@@ -13,5 +13,3 @@ class Tule:
         self.data = data
         self.collision = collision
         self.type_tule = type_tule  # arrival or exit
-
-
